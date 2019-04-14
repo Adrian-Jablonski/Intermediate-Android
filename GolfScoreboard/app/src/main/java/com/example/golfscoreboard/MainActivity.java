@@ -13,74 +13,55 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private static final String PREFS_FILE = "com.example.golfscoreboard.preferences";
-    private static final String KEY_SCORE1 = "key_score1";
-    private static final String KEY_SCORE2 = "key_score2";
+    private static final String[] KEY_SCORE = {"key_score1", "key_score2"};
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     final Scoreboard scoreboard = new Scoreboard();
 
-    Button hole1Plus;
-    Button hole1Minus;
-    Button hole2Plus;
-    Button hole2Minus;
-
-    TextView hole1Score;
-    TextView hole2Score;
+    Button [] holePlusBtn = new Button[2];
+    Button [] holeMinusBtn = new Button[2];
+    TextView [] holeScores = new TextView[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        hole1Plus = findViewById(R.id.hole1Plus);
-        hole1Minus = findViewById(R.id.hole1Minus);
-        hole2Plus = findViewById(R.id.hole2Plus);
-        hole2Minus = findViewById(R.id.hole2Minus);
+        holePlusBtn[0] = findViewById(R.id.hole1Plus);
+        holeMinusBtn[0] = findViewById(R.id.hole1Minus);
+        holePlusBtn[1] = findViewById(R.id.hole2Plus);
+        holeMinusBtn[1] = findViewById(R.id.hole2Minus);
 
-        hole1Score = findViewById(R.id.hole1Score);
-        hole2Score = findViewById(R.id.hole2Score);
+        holeScores[0] = findViewById(R.id.hole1Score);
+        holeScores[1] = findViewById(R.id.hole2Score);
 
         sharedPreferences = getSharedPreferences(PREFS_FILE, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         loadScores();
 
-
-        hole1Plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hole1Score.setText(increaseHoleScore(1));
-            }
-        });
-        hole1Minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hole1Score.setText(decreaseHoleScore(1));
-            }
-        });
-        hole2Plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hole2Score.setText(increaseHoleScore(2));
-            }
-        });
-        hole2Minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hole2Score.setText(decreaseHoleScore(2));
-            }
-        });
-
+        for (int i = 0; i < holePlusBtn.length; i++) {
+            final int finalI = i;
+            holePlusBtn[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holeScores[finalI].setText(increaseHoleScore(finalI));
+                }
+            });
+            holeMinusBtn[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holeScores[finalI].setText(decreaseHoleScore(finalI));
+                }
+            });
+        }
     }
 
     private void loadScores() {
-        String loadScore1 = sharedPreferences.getString(KEY_SCORE1, "");
-        String loadScore2 = sharedPreferences.getString(KEY_SCORE2, "");
-        hole1Score.setText(loadScore1);
-        hole2Score.setText(loadScore2);
-
-        scoreboard.setHoleScore(1, loadScore1);
-        scoreboard.setHoleScore(2, loadScore2);
-
+        for (int i = 0; i < KEY_SCORE.length; i++) {
+            String loadScore = sharedPreferences.getString(KEY_SCORE[i], "");
+            holeScores[i].setText(loadScore);
+            scoreboard.setHoleScore(i, loadScore);
+        }
     }
 
     @Override
@@ -106,8 +87,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        editor.putString(KEY_SCORE1, scoreboard.getHoleScore(1));
-        editor.putString(KEY_SCORE2, scoreboard.getHoleScore(2));
+        for (int i = 0; i < KEY_SCORE.length; i++) {
+            editor.putString(KEY_SCORE[i], scoreboard.getHoleScore(i));
+        }
 
         editor.apply();
     }
@@ -122,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetAllScores() {
-        hole1Score.setText("0");
-        hole2Score.setText("0");
+        for (TextView holeScore : holeScores) {
+            holeScore.setText("0");
+        }
     }
 
 }
