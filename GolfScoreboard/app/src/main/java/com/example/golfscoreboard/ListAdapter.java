@@ -59,6 +59,7 @@ public class ListAdapter extends BaseAdapter {
                 if (updatedStrokeCount < 0) {
                     updatedStrokeCount = 0;
                 }
+                holes[position].setStrokeCount(updatedStrokeCount);
                 holder.strokeCount.setText(updatedStrokeCount + "");
             }
         });
