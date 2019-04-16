@@ -1,4 +1,4 @@
-package com.example.stockmarketapp;
+package com.example.stockmarketapp.ui;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -6,6 +6,13 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import com.example.stockmarketapp.R;
+import com.example.stockmarketapp.stock.Quote;
+import com.example.stockmarketapp.stock.Symbols;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -17,7 +24,7 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String stockSymbols = "aapl,fb";
+    private String[] stockSymbols = {"aapl", "fb"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +33,15 @@ public class MainActivity extends AppCompatActivity {
 
         // https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,fb&types=quote,news,chart&range=1m&last=5
 
-        getStockPrices(stockSymbols);
+        getStockPrices(joinArray(stockSymbols));
+    }
+
+    private String joinArray(String[] stockSymbols) {
+        String joined = "";
+        for (String symbol : stockSymbols) {
+            joined = joined + symbol + ",";
+        }
+        return joined.substring(0, joined.length() - 1);
     }
 
     private void getStockPrices(String stockSymbols) {
@@ -53,12 +68,44 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    String jsonData = response.body().string();
-                    System.out.println("JSON DATA :" + jsonData);
+                    try {
+                        String jsonData = response.body().string();
+                        System.out.println("JSON DATA :" + jsonData);
+
+                        if (response.isSuccessful()) {
+                            getStockQuote(jsonData);
+                        }
+                    } catch (IOException e) {
+                        System.out.println("FAILED");
+                    } catch (JSONException e) {
+                        System.out.println("JSON Exception caught: "+ e);
+                    }
                 }
             });
         }
 
+    }
+
+    private void getStockQuote(String jsonData) throws JSONException {
+        JSONObject data = new JSONObject(jsonData);
+
+        int symbolLen = stockSymbols.length;
+        Quote[] quotes = new Quote[symbolLen];
+
+        for (int i = 0; i < symbolLen; i++) {
+            JSONObject jsonQuote = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONObject("quote");
+
+            Quote quote = new Quote();
+
+            quote.setSymbol(jsonQuote.getString("symbol"));
+            quote.setCompanyName(jsonQuote.getString("companyName"));
+            quote.setLatestPrice(jsonQuote.getDouble("latestPrice"));
+            quote.setChange(jsonQuote.getDouble("change"));
+            quote.setChangePercent(jsonQuote.getDouble("changePercent"));
+
+            quotes[i] = quote;
+        }
+        System.out.println("Done");
     }
 
     private boolean isNetworkAvailable() {
