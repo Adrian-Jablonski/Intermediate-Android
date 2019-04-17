@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="quote"
+            type="com.example.stockmarketapp.stock.Quote">
+        </variable>
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/stockListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        tools:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@{String.valueOf(quote.symbol)"
+            tools:text="MSFT"/>
+
+        <TextView
+            android:id="@+id/symbolName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/symbol"
+            android:layout_toRightOf="@+id/symbol"
+            android:text="@{String.valueOf(quote.companyName)"
+            android:paddingLeft="8dp"
+            tools:text="Microsoft"/>
+
+        <TextView
+            android:id="@+id/currentPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/change"
+            android:layout_toLeftOf="@+id/change"
+            android:paddingRight="8dp"
+            android:text="@{String.valueOf(quote.latestPrice)"
+            tools:text="140.92"/>
+
+        <TextView
+            android:id="@+id/change"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/changePerc"
+            android:layout_toLeftOf="@+id/changePerc"
+            android:paddingRight="8dp"
+            android:text="@{String.valueOf(quote.change)"
+            tools:text="-0.45"/>
+
+        <TextView
+            android:id="@+id/changePerc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="@{String.valueOf(quote.changePercent)"
+            tools:text="(-1.20%)" />
+    </RelativeLayout>
+</layout>
