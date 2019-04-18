@@ -2,10 +2,12 @@ package com.example.stockmarketapp.adapters;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.stockmarketapp.R;
 import com.example.stockmarketapp.databinding.StockSymbolItemBinding;
@@ -39,6 +41,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Quote quote = quotes.get(i);
         viewHolder.stockSymbolItemBinding.setStock(quote);
+        viewHolder.itemView.setBackgroundColor(Color.parseColor(quote.getColor()));
     }
 
     @Override

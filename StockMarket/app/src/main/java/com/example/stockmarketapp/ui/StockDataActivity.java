@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -37,6 +38,7 @@ public class StockDataActivity extends AppCompatActivity {
         adapter = new QuoteAdapter(quotesList, this);
 
         binding.stockQuoteItems.setAdapter(adapter);
+        binding.stockQuoteItems.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         binding.stockQuoteItems.setLayoutManager(new LinearLayoutManager(this));
 
     }

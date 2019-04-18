@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.stockmarketapp.R;
@@ -29,14 +30,18 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String[] stockSymbols = {"aapl", "fb", "msft", "goog", "vym"};
+    private String[] stockSymbols = {"aapl", "fb", "msft", "goog", "vym", "cvx", "bac", "twtr", "jpm", "t", "aig"};
 
     private Symbols symbols;
+
+    private Button showStockData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        showStockData = findViewById(R.id.showStockDataButton);
 
         // https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,fb&types=quote,news,chart&range=1m&last=5
 
@@ -81,6 +86,13 @@ public class MainActivity extends AppCompatActivity {
 
                         if (response.isSuccessful()) {
                             symbols = parseStockData(jsonData);
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showStockData.performClick();
+                                }
+                            });
                         }
                     } catch (IOException e) {
                         System.out.println("FAILED");
@@ -117,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
             quote.setLatestPrice(jsonQuote.getDouble("latestPrice"));
             quote.setChange(jsonQuote.getDouble("change"));
             quote.setChangePercent(jsonQuote.getDouble("changePercent"));
+            quote.setColor();
 
             quotes[i] = quote;
         }
