@@ -1,18 +1,15 @@
 package com.example.stockmarketapp.ui;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.stockmarketapp.R;
-import com.example.stockmarketapp.adapters.QuotesAdapter;
-import com.example.stockmarketapp.databinding.ActivityMainBinding;
-import com.example.stockmarketapp.databinding.StockListItemBinding;
 import com.example.stockmarketapp.stock.Quote;
 import com.example.stockmarketapp.stock.Symbols;
 
@@ -20,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,38 +29,19 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String[] stockSymbols = {"aapl", "fb"};
-    private Symbols symbols;
+    private String[] stockSymbols = {"aapl", "fb", "msft", "goog", "vym"};
 
-    private QuotesAdapter adapter;
-    private StockListItemBinding binding;
+    private Symbols symbols;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-        final ActivityMainBinding binding = DataBindingUtil.setContentView(MainActivity.this, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         // https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,fb&types=quote,news,chart&range=1m&last=5
 
         getStockPrices(joinArray(stockSymbols));
-
-        //Populates view list
-        //TODO: Need to find a way to set an empty adapter before data is set. Then update adapter using adapter.notifyDataSetChanged();
-        //TODO: TRY CREATING ANOTHER VIEW TO PREVENT THIS ERROR SIMILAR TO WEATHER APP
-
-//        adapter = new QuotesAdapter(Arrays.asList(getStockList()), MainActivity.this);
-         adapter = new QuotesAdapter(Arrays.asList(symbols.getStocks()), MainActivity.this);
-
-        binding.quoteListItems.setAdapter(adapter);
-        binding.quoteListItems.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
-
-    private Quote getStockList() {
-        Quote quote = new Quote("", "", 0, 0, 0, 0, 0);
-        return quote;
-    }
-
 
     private String joinArray(String[] stockSymbols) {
         String joined = "";
@@ -102,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
                         if (response.isSuccessful()) {
                             symbols = parseStockData(jsonData);
-
-                            adapter.notifyDataSetChanged();
                         }
                     } catch (IOException e) {
                         System.out.println("FAILED");
@@ -113,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
     }
 
     private Symbols parseStockData(String jsonData) throws JSONException {
@@ -142,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
 
             quotes[i] = quote;
         }
-
         return quotes;
     }
 
@@ -160,5 +137,12 @@ public class MainActivity extends AppCompatActivity {
         return isAvailable;
     }
 
+    public void showDataOnClick(View view) {
+        List<Quote> quotes = Arrays.asList(symbols.getStocks());
+        Intent intent = new Intent(this, StockDataActivity.class);
 
+        intent.putExtra("quotesList", (Serializable) quotes);
+        startActivity(intent);
+
+    }
 }
