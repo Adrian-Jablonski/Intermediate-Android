@@ -84,7 +84,7 @@ public class Quote implements Serializable {
         if (change > 0) {
             sign = "+";
         }
-        return "(" + sign + decimalFormat.format(changePercent * 100) + ")";
+        return "(" + sign + decimalFormat.format(changePercent * 100) + "%)";
     }
 
     public void setChangePercent(double changePercent) {
@@ -96,14 +96,20 @@ public class Quote implements Serializable {
     }
 
     public void setColor() {
-        if (this.change > 0) {
-            this.color = "#32CD32";
+        if (this.change > .5) {
+            this.color = "#00FF00";
         }
-        else if (this.change < 0) {
-            this.color = "#DC143C";
+        else if (this.change >0) {
+            this.color = "#80FF00";
+        }
+        else if (this.change == 0) {
+            this.color = "#FFFFFF";
+        }
+        else if (this.change > -.5) {
+            this.color = "#FF4646";
         }
         else {
-            this.color = "#000000";
+            this.color = "#FF0000";
         }
 
     }

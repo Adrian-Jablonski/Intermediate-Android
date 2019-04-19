@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@color/colorPrimaryDark">
+        android:background="@drawable/stock_row_gradient">
 
         <TextView
             android:id="@+id/stockSymbol"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="16dp"
             android:text="@{String.valueOf(stock.symbol)}"
             android:textColor="@android:color/white"
             android:textSize="20sp"
@@ -39,7 +39,7 @@
             android:layout_marginStart="14dp"
             android:layout_marginTop="12dp"
             android:text="@{String.valueOf(stock.companyName)}"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/darker_gray"
             android:textSize="12sp"
             tools:text="Microsoft" />
 
@@ -51,8 +51,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_marginTop="12dp"
-            android:layout_marginEnd="14dp"
-            android:layout_marginRight="14dp"
+            android:layout_marginEnd="22dp"
+            android:layout_marginRight="22dp"
             android:paddingLeft="5dp"
             android:text="@{String.valueOf(stock.changePercent)}"
             android:textColor="@android:color/white"
@@ -81,8 +81,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="37dp"
-            android:layout_marginRight="37dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
             android:text="@{String.valueOf(stock.latestPrice)}"
             android:textColor="@android:color/white"
             android:textSize="20sp"

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -19,6 +20,9 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
 
     private List<Quote> quotes;
     private Context context;
+    private TextView stockPrice;
+    private TextView stockChangePerc;
+    private TextView stockChange;
 
     public QuoteAdapter(List<Quote> quotes, Context context) {
         this.quotes = quotes;
@@ -39,9 +43,22 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Quote quote = quotes.get(i);
+        final Quote quote = quotes.get(i);
         viewHolder.stockSymbolItemBinding.setStock(quote);
-        viewHolder.itemView.setBackgroundColor(Color.parseColor(quote.getColor()));
+//        viewHolder.itemView.setBackgroundColor(Color.parseColor(quote.getColor()));
+
+        stockPrice = viewHolder.itemView.findViewById(R.id.stockPrice);
+        stockChange = viewHolder.itemView.findViewById(R.id.stockChange);
+        stockChangePerc = viewHolder.itemView.findViewById(R.id.stockChangePerc);
+
+        setChangeColor(Color.parseColor(quote.getColor()));
+
+//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.printf("Clicked %s symbol%n", quote.getSymbol());
+//            }
+//        });
     }
 
     @Override
@@ -57,5 +74,11 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
             super(stockLayoutBinding.getRoot());
             stockSymbolItemBinding = stockLayoutBinding;
         }
+    }
+
+    private void setChangeColor(int color) {
+        stockPrice.setTextColor(color);
+        stockChange.setTextColor(color);
+        stockChangePerc.setTextColor(color);
     }
 }
