@@ -10,4 +10,5 @@ public class Symbols {
     public void setStocks(Quote[] stocks) {
         this.stocks = stocks;
     }
+
 }

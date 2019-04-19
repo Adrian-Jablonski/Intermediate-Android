@@ -43,21 +43,21 @@ public class StockDataActivity extends AppCompatActivity {
 
     }
 
-    private List<Quote> getQuoteData() {    // TEST DATA
-        List<Quote> quotes = new ArrayList<>();
-
-        Quote quote = new Quote("AA", "A1", 2, 1.4, 1.3, -4, -.12);
-        quotes.add(quote);
-        quote = new Quote("AB", "A2", 3, 3.4, 5, 2, 2.2);
-        quotes.add(quote);
-        quote = new Quote("AC", "A3", 12, 12, 12, 0, 0);
-        quotes.add(quote);
-        quote = new Quote("AD", "A1", 2, 1.4, 1.3, -4, -.12);
-        quotes.add(quote);
-        quote = new Quote("AE", "A2", 3, 3.4, 5, 2, 2.2);
-        quotes.add(quote);
-
-        return quotes;
-    }
+//    private List<Quote> getQuoteData() {    // TEST DATA
+//        List<Quote> quotes = new ArrayList<>();
+//
+//        Quote quote = new Quote("AA", "A1", 2, 1.4, 1.3, -4, -.12);
+//        quotes.add(quote);
+//        quote = new Quote("AB", "A2", 3, 3.4, 5, 2, 2.2);
+//        quotes.add(quote);
+//        quote = new Quote("AC", "A3", 12, 12, 12, 0, 0);
+//        quotes.add(quote);
+//        quote = new Quote("AD", "A1", 2, 1.4, 1.3, -4, -.12);
+//        quotes.add(quote);
+//        quote = new Quote("AE", "A2", 3, 3.4, 5, 2, 2.2);
+//        quotes.add(quote);
+//
+//        return quotes;
+//    }
 
 }

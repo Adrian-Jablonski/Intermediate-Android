@@ -1,5 +1,8 @@
 package com.example.stockmarketapp.stock;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
@@ -12,12 +15,13 @@ public class Quote implements Serializable {
     private double change;
     private double changePercent;
     private String color;
+    private String news;
     DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
     public Quote() {
     }
 
-    public Quote(String symbol, String companyName, double open, double close, double latestPrice, double change, double changePercent) {
+    public Quote(String symbol, String companyName, double open, double close, double latestPrice, double change, double changePercent, String news) {
         this.symbol = symbol;
         this.companyName = companyName;
         this.open = open;
@@ -25,6 +29,7 @@ public class Quote implements Serializable {
         this.latestPrice = latestPrice;
         this.change = change;
         this.changePercent = changePercent;
+        this.news = news;
     }
 
     public String getSymbol() {
@@ -65,6 +70,14 @@ public class Quote implements Serializable {
 
     public void setLatestPrice(double latestPrice) {
         this.latestPrice = latestPrice;
+    }
+
+    public String getNews() {
+        return news;
+    }
+
+    public void setNews(String news) {
+        this.news = news;
     }
 
     public String getChange() {

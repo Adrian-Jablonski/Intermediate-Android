@@ -14,6 +14,7 @@ import com.example.stockmarketapp.R;
 import com.example.stockmarketapp.stock.Quote;
 import com.example.stockmarketapp.stock.Symbols;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         String stockURL = " https://api.iextrading.com/1.0/stock/market/batch?symbols="
                 + stockSymbols
-                + "&types=quote,news,chart&range=1m&last=5";
+                + "&types=quote,news,chart&range=1m&last=10";
 
         if (isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
@@ -108,15 +109,16 @@ public class MainActivity extends AppCompatActivity {
     private Symbols parseStockData(String jsonData) throws JSONException {
         Symbols symbols = new Symbols();
 
-        symbols.setStocks(getStockQuote(jsonData));
+        int symbolLen = stockSymbols.length;
+
+        symbols.setStocks(getStockQuote(jsonData, symbolLen));
 
         return symbols;
     }
 
-    private Quote[] getStockQuote(String jsonData) throws JSONException {
+    private Quote[] getStockQuote(String jsonData, int symbolLen) throws JSONException {
         JSONObject data = new JSONObject(jsonData);
 
-        int symbolLen = stockSymbols.length;
         Quote[] quotes = new Quote[symbolLen];
 
         for (int i = 0; i < symbolLen; i++) {
@@ -130,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
             quote.setChange(jsonQuote.getDouble("change"));
             quote.setChangePercent(jsonQuote.getDouble("changePercent"));
             quote.setColor();
+
+            //TODO: Currently saving only first news headline into Quote class. Find a way to pass all news info without an intent error when starting new activity. Try by setting up a news class to organize news info. Then pass News[] array into quote
+            JSONArray jsonNews = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONArray("news");
+            JSONObject newsPiece = jsonNews.getJSONObject(0);
+            quote.setNews(newsPiece.getString("headline"));
 
             quotes[i] = quote;
         }

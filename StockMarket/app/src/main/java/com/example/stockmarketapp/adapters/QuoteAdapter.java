@@ -14,6 +14,10 @@ import com.example.stockmarketapp.R;
 import com.example.stockmarketapp.databinding.StockSymbolItemBinding;
 import com.example.stockmarketapp.stock.Quote;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> {
@@ -54,9 +58,14 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
         setChangeColor(Color.parseColor(quote.getColor()));
 
 //        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+//           //TODO: Create activity for each stock to show news and other data when clicking on stock
+//           //TODO: Add intent and startActivity(intent) here to go to news section
 //            @Override
 //            public void onClick(View v) {
 //                System.out.printf("Clicked %s symbol%n", quote.getSymbol());
+//                String news = quote.getNews();
+//                System.out.println(news);
+//
 //            }
 //        });
     }
