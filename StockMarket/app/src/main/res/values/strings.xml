@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">StockMarketApp</string>
     <string name="title_activity_stock_data">StockDataActivity</string>
+    <string name="title_activity_stock_details">StockDetailsActivity</string>
 </resources>

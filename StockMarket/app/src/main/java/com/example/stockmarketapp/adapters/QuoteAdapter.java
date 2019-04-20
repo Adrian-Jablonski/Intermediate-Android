@@ -1,6 +1,7 @@
 package com.example.stockmarketapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -13,11 +14,14 @@ import android.widget.TextView;
 import com.example.stockmarketapp.R;
 import com.example.stockmarketapp.databinding.StockSymbolItemBinding;
 import com.example.stockmarketapp.stock.Quote;
+import com.example.stockmarketapp.ui.MainActivity;
+import com.example.stockmarketapp.ui.StockDetailsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> {
@@ -57,17 +61,17 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
 
         setChangeColor(Color.parseColor(quote.getColor()));
 
-//        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-//           //TODO: Create activity for each stock to show news and other data when clicking on stock
-//           //TODO: Add intent and startActivity(intent) here to go to news section
-//            @Override
-//            public void onClick(View v) {
-//                System.out.printf("Clicked %s symbol%n", quote.getSymbol());
-//                String news = quote.getNews();
-//                System.out.println(news);
-//
-//            }
-//        });
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+           //TODO: Create activity for each stock to show news and other data when clicking on stock
+           //TODO: Add intent and startActivity(intent) here to go to news section
+            @Override
+            public void onClick(View v) {
+                System.out.printf("Clicked %s symbol%n", quote.getSymbol());
+                String news = quote.getNews();
+                System.out.println(news);
+                showStockDetails(quote);
+            }
+        });
     }
 
     @Override
@@ -89,5 +93,10 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
         stockPrice.setTextColor(color);
         stockChange.setTextColor(color);
         stockChangePerc.setTextColor(color);
+    }
+
+    public void showStockDetails(Quote quote) {
+        Intent intent = new Intent(context, StockDetailsActivity.class);
+        context.startActivity(intent);
     }
 }
