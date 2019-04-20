@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <data>
+        <variable
+            name="newsItem"
+            type="com.example.stockmarketapp.stock.News"
+            >
+
+        </variable>
+    </data>
+    <RelativeLayout
+        android:id="@+id/newsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="#092030">
+
+        <TextView
+            android:id="@+id/headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="15dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@{String.valueOf(newsItem.headline)}"
+            tools:text="Can You Simply Add To Your High Quality Dividend Growth Stocks When They're Down, Because They're Down?" />
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="15dp"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:text="@{String.valueOf(newsItem.summary)}"
+            tools:text="My readers will know that for our US holdings (for my wife's retirement accounts and my retirement accounts), I skimmed 15 of the largest cap Dividend Achievers ( VIG ) back in early 2015.   Here's  Buying Dividend Growth Stocks Without Looking .   Now certainly the index did 'look' and it tak…&quot;" />
+
+        <TextView
+            android:id="@+id/source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/headline"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            android:text="@{String.valueOf(newsItem.source)}"
+            tools:text="SeekingAlpha" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/headline"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/source"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            android:text="@{String.valueOf(newsItem.datetime)}"
+            tools:text="2019-04-20 11:37:16" />
+    </RelativeLayout>
+
+</layout>
+

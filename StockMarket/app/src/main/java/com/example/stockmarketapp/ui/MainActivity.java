@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         String stockURL = " https://api.iextrading.com/1.0/stock/market/batch?symbols="
                 + stockSymbols
-                + "&types=quote,news,chart&range=1m&last=10";
+                + "&types=quote,news,chart&range=3m";
 
         if (isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
