@@ -1,5 +1,6 @@
 package com.example.stockmarketapp.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.stockmarketapp.R;
@@ -20,7 +23,7 @@ import com.example.stockmarketapp.stock.Quote;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockDataActivity extends AppCompatActivity {
+public class StockDataActivity extends AppCompatActivity  {
     private QuoteAdapter adapter;
     private ActivityStockDataBinding binding;
 
@@ -43,7 +46,33 @@ public class StockDataActivity extends AppCompatActivity {
 
     }
 
-//    private List<Quote> getQuoteData() {    // TEST DATA
+    @Override
+    public void onBackPressed() {   // Prevents user from returning to MainActivity loading screen
+        moveTaskToBack(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.refresh) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    //    private List<Quote> getQuoteData() {    // TEST DATA
 //        List<Quote> quotes = new ArrayList<>();
 //
 //        Quote quote = new Quote("AA", "A1", 2, 1.4, 1.3, -4, -.12);
