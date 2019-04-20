@@ -30,7 +30,7 @@
             tools:text="MSFT" />
 
         <TextView
-            android:id="@+id/stockName"
+            android:id="@+id/companyName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/stockSymbol"

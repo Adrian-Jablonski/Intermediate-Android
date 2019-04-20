@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> {
@@ -97,6 +98,10 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
 
     public void showStockDetails(Quote quote) {
         Intent intent = new Intent(context, StockDetailsActivity.class);
+        String news = quote.getNews();
+        intent.putExtra("stockSymbol", quote.getSymbol());
+        intent.putExtra("companyName", quote.getCompanyName());
+        intent.putExtra("news", news);
         context.startActivity(intent);
     }
 }
