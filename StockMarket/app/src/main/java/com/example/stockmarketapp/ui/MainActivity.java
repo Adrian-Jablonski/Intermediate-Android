@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.stockmarketapp.R;
+import com.example.stockmarketapp.stock.News;
 import com.example.stockmarketapp.stock.Quote;
 import com.example.stockmarketapp.stock.Symbols;
 
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
     private Button showStockData;
 
+    public String[] getStockSymbols() {
+        return stockSymbols;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         getStockPrices(joinArray(stockSymbols));
     }
 
-    private String joinArray(String[] stockSymbols) {
+    public String joinArray(String[] stockSymbols) {
         String joined = "";
         for (String symbol : stockSymbols) {
             joined = joined + symbol + ",";
@@ -57,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         return joined.substring(0, joined.length() - 1);
     }
 
-    private void getStockPrices(String stockSymbols) {
+    public void getStockPrices(String stockSymbols) {
 
         String stockURL = " https://api.iextrading.com/1.0/stock/market/batch?symbols="
                 + stockSymbols
@@ -135,8 +140,12 @@ public class MainActivity extends AppCompatActivity {
 
             //TODO: Currently saving only first news headline into Quote class. Find a way to pass all news info without an intent error when starting new activity. Try by setting up a news class to organize news info. Then pass News[] array into quote
             JSONArray jsonNews = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONArray("news");
-            JSONObject newsPiece = jsonNews.getJSONObject(0);
-            quote.setNews(newsPiece.getString("headline"));
+            JSONObject newsPieceFirstNews = jsonNews.getJSONObject(0);
+
+            quote.setNews(newsPieceFirstNews.getString("headline"));
+
+            News[] news = createNewsList(i, jsonNews);
+            quote.setNewsList(news);
 
             quotes[i] = quote;
         }
@@ -164,5 +173,22 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("quotesList", (Serializable) quotes);
         startActivity(intent);
 
+    }
+
+    private News[] createNewsList(int i, JSONArray jsonNews) throws JSONException {
+        int newsLen = jsonNews.length();
+        News[] news = new News[newsLen];
+        for (int j = 0; j < newsLen; j++) {
+            News newsPiece = new News();
+            JSONObject newsObj = jsonNews.getJSONObject(j);
+            newsPiece.setDatetime(newsObj.getString("datetime"));
+            newsPiece.setHeadline(newsObj.getString("headline"));
+            newsPiece.setSource(newsObj.getString("source"));
+            newsPiece.setUrl(newsObj.getString("url"));
+            newsPiece.setSummary(newsObj.getString("summary"));
+
+            news[j] = newsPiece;
+        }
+        return news;
     }
 }

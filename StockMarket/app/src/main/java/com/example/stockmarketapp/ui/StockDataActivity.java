@@ -54,7 +54,12 @@ public class StockDataActivity extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem menuItem = menu.add("Refresh");
+        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menuItem.setIcon(R.drawable.ic_refresh_black_24dp);
+
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
@@ -64,9 +69,12 @@ public class StockDataActivity extends AppCompatActivity  {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        System.out.println("CLICKED ID: " + id + " " + R.id.refresh);
         //noinspection SimplifiableIfStatement
-        if (id == R.id.refresh) {
+        if (id == 0) {  // Refreshing stocks list
+            System.out.println("REFRESHED");
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
             return true;
         }
 

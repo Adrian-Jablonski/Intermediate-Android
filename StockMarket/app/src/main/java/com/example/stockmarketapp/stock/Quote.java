@@ -16,6 +16,7 @@ public class Quote implements Serializable {
     private double changePercent;
     private String color;
     private String news;
+    private News[] newsList;
     DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
     public Quote() {
@@ -78,6 +79,14 @@ public class Quote implements Serializable {
 
     public void setNews(String news) {
         this.news = news;
+    }
+
+    public News[] getNewsList() {
+        return newsList;
+    }
+
+    public void setNewsList(News[] newsList) {
+        this.newsList = newsList;
     }
 
     public String getChange() {

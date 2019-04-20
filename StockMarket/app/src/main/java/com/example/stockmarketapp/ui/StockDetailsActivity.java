@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.stockmarketapp.R;
+import com.example.stockmarketapp.stock.News;
 import com.example.stockmarketapp.stock.Quote;
 
 import java.util.ArrayList;
@@ -34,6 +35,13 @@ public class StockDetailsActivity extends AppCompatActivity {
         String stockSymbol = intent.getStringExtra("stockSymbol");
         String companyName = intent.getStringExtra("companyName");
         String news = intent.getStringExtra("news");
+        List<News> newsList = (ArrayList<News>) intent.getSerializableExtra("newsList");
+
+        int newsListLen = newsList.size();
+
+        for (int i = 0; i < newsListLen; i++) {
+            System.out.printf("NEWS Item %s: %s%n", i, newsList.get(i).getSummary());
+        }
 
         stockSymbolText.setText(stockSymbol);
         companyNameText.setText(companyName);

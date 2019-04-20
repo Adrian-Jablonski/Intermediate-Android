@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.stockmarketapp.R;
 import com.example.stockmarketapp.databinding.StockSymbolItemBinding;
+import com.example.stockmarketapp.stock.News;
 import com.example.stockmarketapp.stock.Quote;
 import com.example.stockmarketapp.ui.MainActivity;
 import com.example.stockmarketapp.ui.StockDetailsActivity;
@@ -102,6 +103,10 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
         intent.putExtra("stockSymbol", quote.getSymbol());
         intent.putExtra("companyName", quote.getCompanyName());
         intent.putExtra("news", news);
+
+        List<News> newsList = Arrays.asList(quote.getNewsList());
+        intent.putExtra("newsList", (Serializable) newsList);
+
         context.startActivity(intent);
     }
 }
