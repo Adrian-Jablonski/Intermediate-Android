@@ -4,20 +4,15 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.stockmarketapp.R;
 import com.example.stockmarketapp.adapters.NewsAdapter;
 import com.example.stockmarketapp.databinding.ActivityStockDetailsBinding;
-import com.example.stockmarketapp.databinding.NewsListItemBinding;
 import com.example.stockmarketapp.stock.News;
 import com.example.stockmarketapp.stock.Quote;
 import com.squareup.picasso.Picasso;
@@ -38,6 +33,7 @@ public class StockDetailsActivity extends AppCompatActivity {
     private TextView changePerc;
     private TextView openPrice;
     private TextView dayRange;
+    private TextView range52Week;
     private ImageView companyImage;
 
     @Override
@@ -58,6 +54,7 @@ public class StockDetailsActivity extends AppCompatActivity {
         changePerc = findViewById(R.id.stockChangePerc);
         openPrice = findViewById(R.id.openPrice);
         dayRange = findViewById(R.id.dayRange);
+        range52Week = findViewById(R.id.range52Week);
 
         Intent intent = getIntent();
         List<News> newsList = (ArrayList<News>) intent.getSerializableExtra("newsList");
@@ -85,6 +82,7 @@ public class StockDetailsActivity extends AppCompatActivity {
         changePerc.setText(quote.getChangePercent());
         openPrice.setText(quote.getOpen() + "");
         dayRange.setText(quote.getLow() + " - " + quote.getHigh());
+        range52Week.setText(quote.getLow52Week() + " - " + quote.getHigh52Week());
 
         setChangeColor(Color.parseColor(quote.getColor()));
 

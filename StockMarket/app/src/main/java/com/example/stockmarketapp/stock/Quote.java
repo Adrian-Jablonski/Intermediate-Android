@@ -22,7 +22,8 @@ public class Quote implements Serializable {
     private String logo;
     private double low;
     private double high;
-
+    private double low52Week;
+    private double high52Week;
 
     DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
@@ -30,7 +31,8 @@ public class Quote implements Serializable {
     }
 
     public Quote(String symbol, String companyName, double open, double close, double latestPrice, double change,
-                 double changePercent, String news, String sector, String logo, double low, double high) {
+                 double changePercent, String news, String sector, String logo, double low, double high,
+                 double low52Week, double high52Week) {
         this.symbol = symbol;
         this.companyName = companyName;
         this.open = open;
@@ -43,6 +45,8 @@ public class Quote implements Serializable {
         this.logo = logo;
         this.low = low;
         this.high = high;
+        this.low52Week = low52Week;
+        this.high52Week = high52Week;
     }
 
     public String getSymbol() {
@@ -178,5 +182,21 @@ public class Quote implements Serializable {
 
     public void setHigh(double high) {
         this.high = high;
+    }
+
+    public double getLow52Week() {
+        return low52Week;
+    }
+
+    public void setLow52Week(double low52Week) {
+        this.low52Week = low52Week;
+    }
+
+    public double getHigh52Week() {
+        return high52Week;
+    }
+
+    public void setHigh52Week(double high52Week) {
+        this.high52Week = high52Week;
     }
 }

@@ -143,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
             quote.setOpen(jsonQuote.getDouble("open"));
             quote.setLow(jsonQuote.getDouble("low"));
             quote.setHigh(jsonQuote.getDouble("high"));
+            quote.setLow52Week(jsonQuote.getDouble("week52Low"));
+            quote.setHigh52Week(jsonQuote.getDouble("week52High"));
 
             //TODO: Currently saving only first news headline into Quote class. Find a way to pass all news info without an intent error when starting new activity. Try by setting up a news class to organize news info. Then pass News[] array into quote
             JSONArray jsonNews = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONArray("news");
