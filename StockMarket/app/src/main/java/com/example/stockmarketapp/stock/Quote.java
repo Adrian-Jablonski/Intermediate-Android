@@ -20,6 +20,8 @@ public class Quote implements Serializable {
 
     private String sector;
     private String logo;
+    private double low;
+    private double high;
 
 
     DecimalFormat decimalFormat = new DecimalFormat("0.##");
@@ -27,7 +29,8 @@ public class Quote implements Serializable {
     public Quote() {
     }
 
-    public Quote(String symbol, String companyName, double open, double close, double latestPrice, double change, double changePercent, String news, String sector, String logo) {
+    public Quote(String symbol, String companyName, double open, double close, double latestPrice, double change,
+                 double changePercent, String news, String sector, String logo, double low, double high) {
         this.symbol = symbol;
         this.companyName = companyName;
         this.open = open;
@@ -38,6 +41,8 @@ public class Quote implements Serializable {
         this.news = news;
         this.sector = sector;
         this.logo = logo;
+        this.low = low;
+        this.high = high;
     }
 
     public String getSymbol() {
@@ -157,5 +162,21 @@ public class Quote implements Serializable {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public double getLow() {
+        return low;
+    }
+
+    public void setLow(double low) {
+        this.low = low;
+    }
+
+    public double getHigh() {
+        return high;
+    }
+
+    public void setHigh(double high) {
+        this.high = high;
     }
 }

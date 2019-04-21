@@ -36,6 +36,8 @@ public class StockDetailsActivity extends AppCompatActivity {
     private TextView stockPrice;
     private TextView change;
     private TextView changePerc;
+    private TextView openPrice;
+    private TextView dayRange;
     private ImageView companyImage;
 
     @Override
@@ -54,6 +56,8 @@ public class StockDetailsActivity extends AppCompatActivity {
         stockPrice = findViewById(R.id.stockPrice);
         change = findViewById(R.id.stockChange);
         changePerc = findViewById(R.id.stockChangePerc);
+        openPrice = findViewById(R.id.openPrice);
+        dayRange = findViewById(R.id.dayRange);
 
         Intent intent = getIntent();
         List<News> newsList = (ArrayList<News>) intent.getSerializableExtra("newsList");
@@ -79,6 +83,8 @@ public class StockDetailsActivity extends AppCompatActivity {
         stockPrice.setText(quote.getLatestPrice() + "");
         change.setText(quote.getChange());
         changePerc.setText(quote.getChangePercent());
+        openPrice.setText(quote.getOpen() + "");
+        dayRange.setText(quote.getLow() + " - " + quote.getHigh());
 
         setChangeColor(Color.parseColor(quote.getColor()));
 
