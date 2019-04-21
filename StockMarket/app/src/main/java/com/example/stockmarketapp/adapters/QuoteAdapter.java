@@ -36,7 +36,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
     private TextView stockPrice;
     private TextView stockChangePerc;
     private TextView stockChange;
-    public ImageView companyImage;
+    private ImageView companyImage;
     private Symbols symbols = new Symbols();
 
     public QuoteAdapter(List<Quote> quotes, Context context) {
@@ -69,7 +69,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
 
         setChangeColor(Color.parseColor(quote.getColor()));
 
-        Picasso.get().load(quote.getLogo()).into(companyImage); //
+        Picasso.get().load(quote.getLogo()).into(companyImage); // Loads image from URL
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
            //TODO: Create activity for each stock to show news and other data when clicking on stock
