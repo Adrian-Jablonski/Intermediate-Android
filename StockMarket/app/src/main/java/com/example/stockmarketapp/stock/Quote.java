@@ -17,12 +17,17 @@ public class Quote implements Serializable {
     private String color;
     private String news;
     private News[] newsList;
+
+    private String sector;
+    private String logo;
+
+
     DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
     public Quote() {
     }
 
-    public Quote(String symbol, String companyName, double open, double close, double latestPrice, double change, double changePercent, String news) {
+    public Quote(String symbol, String companyName, double open, double close, double latestPrice, double change, double changePercent, String news, String sector, String logo) {
         this.symbol = symbol;
         this.companyName = companyName;
         this.open = open;
@@ -31,6 +36,8 @@ public class Quote implements Serializable {
         this.change = change;
         this.changePercent = changePercent;
         this.news = news;
+        this.sector = sector;
+        this.logo = logo;
     }
 
     public String getSymbol() {
@@ -136,4 +143,19 @@ public class Quote implements Serializable {
 
     }
 
+    public String getSector() {
+        return sector;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 }

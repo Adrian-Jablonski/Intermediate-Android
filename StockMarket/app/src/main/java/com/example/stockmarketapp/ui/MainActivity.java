@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         String stockURL = " https://api.iextrading.com/1.0/stock/market/batch?symbols="
                 + stockSymbols
-                + "&types=quote,news,chart&range=3m";
+                + "&types=quote,news,chart,logo&range=3m";
 
         if (isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < symbolLen; i++) {
             JSONObject jsonQuote = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONObject("quote");
+            JSONObject jsonLogo = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONObject("logo");
 
             Quote quote = new Quote();
 
@@ -137,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
             quote.setChange(jsonQuote.getDouble("change"));
             quote.setChangePercent(jsonQuote.getDouble("changePercent"));
             quote.setColor();
+            quote.setSector(jsonQuote.getString("sector"));
+            quote.setLogo(jsonLogo.getString("url"));
 
             //TODO: Currently saving only first news headline into Quote class. Find a way to pass all news info without an intent error when starting new activity. Try by setting up a news class to organize news info. Then pass News[] array into quote
             JSONArray jsonNews = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONArray("news");

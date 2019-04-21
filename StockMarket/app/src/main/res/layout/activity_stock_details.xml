@@ -52,27 +52,30 @@
             android:layout_height="61dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/include">
 
             <TextView
                 android:id="@+id/stockSymbol"
-                android:layout_width="wrap_content"
+                android:layout_width="6dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight=".3"
                 android:textColor="@android:color/white"
-                android:textSize="24sp"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 tools:text="MSFT" />
 
             <TextView
                 android:id="@+id/companyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight=".7"
                 android:textColor="@android:color/white"
-                android:textSize="24sp"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 tools:text="Microsoft" />
+
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

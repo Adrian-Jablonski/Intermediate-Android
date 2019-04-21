@@ -9,14 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.stockmarketapp.R;
 import com.example.stockmarketapp.databinding.StockSymbolItemBinding;
 import com.example.stockmarketapp.stock.News;
 import com.example.stockmarketapp.stock.Quote;
+import com.example.stockmarketapp.stock.Symbols;
 import com.example.stockmarketapp.ui.MainActivity;
 import com.example.stockmarketapp.ui.StockDetailsActivity;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +36,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
     private TextView stockPrice;
     private TextView stockChangePerc;
     private TextView stockChange;
+    public ImageView companyImage;
+    private Symbols symbols = new Symbols();
 
     public QuoteAdapter(List<Quote> quotes, Context context) {
         this.quotes = quotes;
@@ -60,8 +65,11 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
         stockPrice = viewHolder.itemView.findViewById(R.id.stockPrice);
         stockChange = viewHolder.itemView.findViewById(R.id.stockChange);
         stockChangePerc = viewHolder.itemView.findViewById(R.id.stockChangePerc);
+        companyImage = viewHolder.itemView.findViewById(R.id.companyImage);
 
         setChangeColor(Color.parseColor(quote.getColor()));
+
+        Picasso.get().load(quote.getLogo()).into(companyImage); //
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
            //TODO: Create activity for each stock to show news and other data when clicking on stock
@@ -99,6 +107,9 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
 
     public void showStockDetails(Quote quote) {
         Intent intent = new Intent(context, StockDetailsActivity.class);
+        List<Quote> quoteList = Arrays.asList(quote);
+
+        intent.putExtra("quoteList", (Serializable) quoteList);
         String news = quote.getNews();
         intent.putExtra("stockSymbol", quote.getSymbol());
         intent.putExtra("companyName", quote.getCompanyName());

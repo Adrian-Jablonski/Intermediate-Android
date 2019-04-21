@@ -43,9 +43,9 @@ public class StockDetailsActivity extends AppCompatActivity {
         companyNameText = findViewById(R.id.companyName);
 
         Intent intent = getIntent();
-        String stockSymbol = intent.getStringExtra("stockSymbol");
-        String companyName = intent.getStringExtra("companyName");
         List<News> newsList = (ArrayList<News>) intent.getSerializableExtra("newsList");
+        List<Quote> quoteList = (ArrayList<Quote>) intent.getSerializableExtra("quoteList");
+        Quote quote = quoteList.get(0);
 
         adapter = new NewsAdapter(newsList, this);
 
@@ -60,8 +60,8 @@ public class StockDetailsActivity extends AppCompatActivity {
             System.out.printf("NEWS Item %s: %s%n", i, newsList.get(i).getSummary());
         }
 
-        stockSymbolText.setText(stockSymbol);
-        companyNameText.setText(companyName);
+        stockSymbolText.setText(quote.getSymbol());
+        companyNameText.setText(quote.getCompanyName());
     }
 
 }
