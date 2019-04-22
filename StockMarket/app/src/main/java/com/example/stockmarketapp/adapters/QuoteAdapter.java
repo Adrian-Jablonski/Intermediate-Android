@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.stockmarketapp.R;
 import com.example.stockmarketapp.databinding.StockSymbolItemBinding;
+import com.example.stockmarketapp.stock.Chart;
 import com.example.stockmarketapp.stock.News;
 import com.example.stockmarketapp.stock.Quote;
 import com.example.stockmarketapp.stock.Symbols;
@@ -76,9 +77,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
            //TODO: Add intent and startActivity(intent) here to go to news section
             @Override
             public void onClick(View v) {
-                System.out.printf("Clicked %s symbol%n", quote.getSymbol());
-                String news = quote.getNews();
-                System.out.println(news);
                 showStockDetails(quote);
             }
         });
@@ -110,13 +108,14 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.ViewHolder> 
         List<Quote> quoteList = Arrays.asList(quote);
 
         intent.putExtra("quoteList", (Serializable) quoteList);
-        String news = quote.getNews();
         intent.putExtra("stockSymbol", quote.getSymbol());
         intent.putExtra("companyName", quote.getCompanyName());
-        intent.putExtra("news", news);
 
         List<News> newsList = Arrays.asList(quote.getNewsList());
         intent.putExtra("newsList", (Serializable) newsList);
+
+        List<Chart> chartList = Arrays.asList(quote.getChartList());
+        intent.putExtra("chartList", (Serializable) chartList);
 
         context.startActivity(intent);
     }

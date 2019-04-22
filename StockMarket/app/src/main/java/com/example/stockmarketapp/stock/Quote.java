@@ -15,9 +15,6 @@ public class Quote implements Serializable {
     private double change;
     private double changePercent;
     private String color;
-    private String news;
-    private News[] newsList;
-
     private String sector;
     private String logo;
     private double low;
@@ -25,13 +22,16 @@ public class Quote implements Serializable {
     private double low52Week;
     private double high52Week;
 
+    private News[] newsList;
+    private Chart[] chartList;
+
     DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
     public Quote() {
     }
 
     public Quote(String symbol, String companyName, double open, double close, double latestPrice, double change,
-                 double changePercent, String news, String sector, String logo, double low, double high,
+                 double changePercent, String sector, String logo, double low, double high,
                  double low52Week, double high52Week) {
         this.symbol = symbol;
         this.companyName = companyName;
@@ -40,7 +40,6 @@ public class Quote implements Serializable {
         this.latestPrice = latestPrice;
         this.change = change;
         this.changePercent = changePercent;
-        this.news = news;
         this.sector = sector;
         this.logo = logo;
         this.low = low;
@@ -87,22 +86,6 @@ public class Quote implements Serializable {
 
     public void setLatestPrice(double latestPrice) {
         this.latestPrice = latestPrice;
-    }
-
-    public String getNews() {
-        return news;
-    }
-
-    public void setNews(String news) {
-        this.news = news;
-    }
-
-    public News[] getNewsList() {
-        return newsList;
-    }
-
-    public void setNewsList(News[] newsList) {
-        this.newsList = newsList;
     }
 
     public String getChange() {
@@ -198,5 +181,22 @@ public class Quote implements Serializable {
 
     public void setHigh52Week(double high52Week) {
         this.high52Week = high52Week;
+    }
+
+
+    public News[] getNewsList() {
+        return newsList;
+    }
+
+    public void setNewsList(News[] newsList) {
+        this.newsList = newsList;
+    }
+
+    public Chart[] getChartList() {
+        return chartList;
+    }
+
+    public void setChartList(Chart[] chartList) {
+        this.chartList = chartList;
     }
 }

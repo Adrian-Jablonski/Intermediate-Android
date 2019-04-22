@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.stockmarketapp.R;
+import com.example.stockmarketapp.stock.Chart;
 import com.example.stockmarketapp.stock.News;
 import com.example.stockmarketapp.stock.Quote;
 import com.example.stockmarketapp.stock.Symbols;
@@ -111,16 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private Symbols parseStockData(String jsonData) throws JSONException {
-        Symbols symbols = new Symbols();
-
-        int symbolLen = stockSymbols.length;
-
-        symbols.setStocks(getStockQuote(jsonData, symbolLen));
-
-        return symbols;
-    }
-
     private Quote[] getStockQuote(String jsonData, int symbolLen) throws JSONException {
         JSONObject data = new JSONObject(jsonData);
 
@@ -131,33 +122,29 @@ public class MainActivity extends AppCompatActivity {
             JSONObject jsonLogo = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONObject("logo");
 
             Quote quote = new Quote();
+            setQuoteData(jsonQuote, jsonLogo, quote);
 
-            quote.setSymbol(jsonQuote.getString("symbol"));
-            quote.setCompanyName(jsonQuote.getString("companyName"));
-            quote.setLatestPrice(jsonQuote.getDouble("latestPrice"));
-            quote.setChange(jsonQuote.getDouble("change"));
-            quote.setChangePercent(jsonQuote.getDouble("changePercent"));
-            quote.setColor();
-            quote.setSector(jsonQuote.getString("sector"));
-            quote.setLogo(jsonLogo.getString("url"));
-            quote.setOpen(jsonQuote.getDouble("open"));
-            quote.setLow(jsonQuote.getDouble("low"));
-            quote.setHigh(jsonQuote.getDouble("high"));
-            quote.setLow52Week(jsonQuote.getDouble("week52Low"));
-            quote.setHigh52Week(jsonQuote.getDouble("week52High"));
-
-            //TODO: Currently saving only first news headline into Quote class. Find a way to pass all news info without an intent error when starting new activity. Try by setting up a news class to organize news info. Then pass News[] array into quote
             JSONArray jsonNews = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONArray("news");
-            JSONObject newsPieceFirstNews = jsonNews.getJSONObject(0);
-
-            quote.setNews(newsPieceFirstNews.getString("headline"));
-
             News[] news = createNewsList(i, jsonNews);
             quote.setNewsList(news);
+
+            JSONArray jsonChart = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONArray("chart");
+            Chart[] chartData = createChartList(i, jsonChart);
+            quote.setChartList(chartData);
 
             quotes[i] = quote;
         }
         return quotes;
+    }
+
+    private Symbols parseStockData(String jsonData) throws JSONException {
+        Symbols symbols = new Symbols();
+
+        int symbolLen = stockSymbols.length;
+
+        symbols.setStocks(getStockQuote(jsonData, symbolLen));
+
+        return symbols;
     }
 
     private boolean isNetworkAvailable() {
@@ -183,6 +170,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void setQuoteData(JSONObject jsonQuote, JSONObject jsonLogo, Quote quote) throws JSONException {
+        quote.setSymbol(jsonQuote.getString("symbol"));
+        quote.setCompanyName(jsonQuote.getString("companyName"));
+        quote.setLatestPrice(jsonQuote.getDouble("latestPrice"));
+        quote.setChange(jsonQuote.getDouble("change"));
+        quote.setChangePercent(jsonQuote.getDouble("changePercent"));
+        quote.setColor();
+        quote.setSector(jsonQuote.getString("sector"));
+        quote.setLogo(jsonLogo.getString("url"));
+        quote.setOpen(jsonQuote.getDouble("open"));
+        quote.setLow(jsonQuote.getDouble("low"));
+        quote.setHigh(jsonQuote.getDouble("high"));
+        quote.setLow52Week(jsonQuote.getDouble("week52Low"));
+        quote.setHigh52Week(jsonQuote.getDouble("week52High"));
+    }
+
     private News[] createNewsList(int i, JSONArray jsonNews) throws JSONException {
         int newsLen = jsonNews.length();
         News[] news = new News[newsLen];
@@ -198,5 +201,26 @@ public class MainActivity extends AppCompatActivity {
             news[j] = newsPiece;
         }
         return news;
+    }
+
+    private Chart[] createChartList(int i, JSONArray jsonChart) throws JSONException {
+        int dataLen = jsonChart.length();
+        Chart[] chartData = new Chart[dataLen];
+        for (int j = 0; j < dataLen; j++) {
+            Chart dayData = new Chart();
+            JSONObject chartObj = jsonChart.getJSONObject(j);
+            dayData.setDate(chartObj.getString("date"));
+            dayData.setOpen(chartObj.getDouble("open"));
+            dayData.setHigh(chartObj.getDouble("high"));
+            dayData.setLow(chartObj.getDouble("low"));
+            dayData.setClose(chartObj.getDouble("close"));
+            dayData.setVolume(chartObj.getDouble("volume"));
+            dayData.setChange(chartObj.getDouble("change"));
+            dayData.setChangePercent(chartObj.getDouble("changePercent"));
+            dayData.setLabel(chartObj.getString("label"));
+
+            chartData[j] = dayData;
+        }
+        return chartData;
     }
 }

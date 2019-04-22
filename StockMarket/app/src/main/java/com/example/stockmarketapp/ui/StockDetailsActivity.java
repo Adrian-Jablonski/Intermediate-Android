@@ -13,8 +13,13 @@ import android.widget.TextView;
 import com.example.stockmarketapp.R;
 import com.example.stockmarketapp.adapters.NewsAdapter;
 import com.example.stockmarketapp.databinding.ActivityStockDetailsBinding;
+import com.example.stockmarketapp.stock.Chart;
 import com.example.stockmarketapp.stock.News;
 import com.example.stockmarketapp.stock.Quote;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -57,8 +62,9 @@ public class StockDetailsActivity extends AppCompatActivity {
         range52Week = findViewById(R.id.range52Week);
 
         Intent intent = getIntent();
-        List<News> newsList = (ArrayList<News>) intent.getSerializableExtra("newsList");
         List<Quote> quoteList = (ArrayList<Quote>) intent.getSerializableExtra("quoteList");
+        List<News> newsList = (ArrayList<News>) intent.getSerializableExtra("newsList");
+        List<Chart> chartList = (ArrayList<Chart>) intent.getSerializableExtra("chartList");
         Quote quote = quoteList.get(0);
 
         adapter = new NewsAdapter(newsList, this);
@@ -67,12 +73,6 @@ public class StockDetailsActivity extends AppCompatActivity {
         binding.newsListItems.setLayoutManager(new LinearLayoutManager(this));
         binding.newsListItems.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         binding.newsListItems.setLayoutManager(new LinearLayoutManager(this));
-
-        int newsListLen = newsList.size();
-
-        for (int i = 0; i < newsListLen; i++) {
-            System.out.printf("NEWS Item %s: %s%n", i, newsList.get(i).getSummary());
-        }
 
         stockSymbolText.setText(quote.getSymbol());
         companyNameText.setText(quote.getCompanyName());
@@ -87,12 +87,33 @@ public class StockDetailsActivity extends AppCompatActivity {
         setChangeColor(Color.parseColor(quote.getColor()));
 
         Picasso.get().load(quote.getLogo()).into(companyImage); // Loads image from URL
+
+        int chartListLen = chartList.size();
+
+        showDataInChart(chartList, quote, chartListLen);
     }
 
     private void setChangeColor(int color) {
         stockPrice.setTextColor(color);
         change.setTextColor(color);
         changePerc.setTextColor(color);
+    }
+
+    private void showDataInChart(List<Chart> chartList, Quote quote, int chartListLen) {
+        GraphView graph = findViewById(R.id.stockGraph);
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+
+        System.out.printf("CHART LIST: %s%n", quote.getSymbol());
+        for (int i = 0; i < chartListLen; i++) {
+            System.out.printf("Date: %s: Close: %s%n", chartList.get(i).getDate(), chartList.get(i).getClose());
+            series.appendData(new DataPoint(i, chartList.get(i).getClose()), true, chartListLen);
+        }
+
+        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.parseColor("#50A6C2"));
+        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.parseColor("#50A6C2"));
+        graph.getGridLabelRenderer().setGridColor(Color.parseColor("#C0C0C0"));
+
+        graph.addSeries(series);
     }
 
 }
