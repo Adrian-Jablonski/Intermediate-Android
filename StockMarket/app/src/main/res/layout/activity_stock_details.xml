@@ -18,7 +18,7 @@
         android:background="@drawable/stock_row_gradient"
         tools:context=".ui.StockDetailsActivity">
 
-        <com.jjoe64.graphview.GraphView
+        <RelativeLayout
             android:id="@+id/stockGraph"
             android:layout_width="0dp"
             android:layout_height="90dp"

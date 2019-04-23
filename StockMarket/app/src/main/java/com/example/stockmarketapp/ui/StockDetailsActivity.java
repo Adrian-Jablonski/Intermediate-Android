@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.stockmarketapp.R;
@@ -16,8 +17,8 @@ import com.example.stockmarketapp.databinding.ActivityStockDetailsBinding;
 import com.example.stockmarketapp.stock.Chart;
 import com.example.stockmarketapp.stock.News;
 import com.example.stockmarketapp.stock.Quote;
+import com.example.stockmarketapp.view.ChartView;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 import com.squareup.picasso.Picasso;
@@ -90,6 +91,7 @@ public class StockDetailsActivity extends AppCompatActivity {
 
         int chartListLen = chartList.size();
 
+//        showDataInChartUsingGraphView(chartList, quote, chartListLen);
         showDataInChart(chartList, quote, chartListLen);
     }
 
@@ -99,21 +101,28 @@ public class StockDetailsActivity extends AppCompatActivity {
         changePerc.setTextColor(color);
     }
 
+//    private void showDataInChartUsingGraphView(List<Chart> chartList, Quote quote, int chartListLen) {    //Also removed graphView from .xml file
+//        GraphView graph = findViewById(R.id.stockGraph);
+//        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+//
+//        System.out.printf("CHART LIST: %s%n", quote.getSymbol());
+//        for (int i = 0; i < chartListLen; i++) {
+//            System.out.printf("Date: %s: Close: %s%n", chartList.get(i).getDate(), chartList.get(i).getClose());
+//            series.appendData(new DataPoint(i, chartList.get(i).getClose()), true, chartListLen);
+//        }
+//
+//        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.parseColor("#50A6C2"));
+//        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.parseColor("#50A6C2"));
+//        graph.getGridLabelRenderer().setGridColor(Color.parseColor("#C0C0C0"));
+//
+//        graph.addSeries(series);
+//    }
+
     private void showDataInChart(List<Chart> chartList, Quote quote, int chartListLen) {
-        GraphView graph = findViewById(R.id.stockGraph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>();
+        ChartView chartView = new ChartView(this, chartList);
+        RelativeLayout relativeLayout = findViewById(R.id.stockGraph);
+        relativeLayout.addView(chartView);
 
-        System.out.printf("CHART LIST: %s%n", quote.getSymbol());
-        for (int i = 0; i < chartListLen; i++) {
-            System.out.printf("Date: %s: Close: %s%n", chartList.get(i).getDate(), chartList.get(i).getClose());
-            series.appendData(new DataPoint(i, chartList.get(i).getClose()), true, chartListLen);
-        }
-
-        graph.getGridLabelRenderer().setVerticalLabelsColor(Color.parseColor("#50A6C2"));
-        graph.getGridLabelRenderer().setHorizontalLabelsColor(Color.parseColor("#50A6C2"));
-        graph.getGridLabelRenderer().setGridColor(Color.parseColor("#C0C0C0"));
-
-        graph.addSeries(series);
     }
 
 }

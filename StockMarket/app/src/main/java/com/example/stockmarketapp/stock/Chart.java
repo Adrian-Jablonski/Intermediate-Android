@@ -36,20 +36,20 @@ public class Chart implements Serializable {
         this.date = date;
     }
 
-    public double getOpen() {
-        return open;
+    public float getOpen() {
+        return (float) open;
     }
 
     public void setOpen(double open) {
         this.open = open;
     }
 
-    public double getHigh() {
-        return high;
+    public float getHigh() {
+        return (float) high;
     }
 
-    public double getLow() {
-        return low;
+    public float getLow() {
+        return (float) low;
     }
 
     public void setLow(double low) {
@@ -60,8 +60,8 @@ public class Chart implements Serializable {
         this.high = high;
     }
 
-    public double getClose() {
-        return close;
+    public float getClose() {
+        return (float) close;
     }
 
     public void setClose(double close) {
