@@ -39,7 +39,7 @@ public class ChartView extends View {
     protected void onDraw(Canvas canvas) {
         width = canvas.getWidth();
         height = canvas.getHeight();
-        float chartWidth = width - textPaint.measureText("1000");
+        float chartWidth = width - textPaint.measureText("1000.0");
         float rectWidth = chartWidth / data.size();
         strokePaint.setStrokeWidth(rectWidth / 6);
         float left = 0;

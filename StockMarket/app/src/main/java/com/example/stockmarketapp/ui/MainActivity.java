@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,13 +34,14 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String[] stockSymbols = {"aapl", "fb", "msft", "goog", "vym", "cvx", "bac", "twtr", "jpm", "t", "aig"};
+    private ArrayList<String> stockSymbols = new ArrayList<String>(
+            Arrays.asList("aapl", "fb", "msft", "goog", "vym", "cvx", "bac", "twtr", "jpm", "t", "aig"));
 
     private Symbols symbols;
 
     private Button showStockData;
 
-    public String[] getStockSymbols() {
+    public ArrayList<String> getStockSymbols() {
         return stockSymbols;
     }
 
@@ -52,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
 
         // https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,fb&types=quote,news,chart&range=1m&last=5
 
-        getStockPrices(joinArray(stockSymbols));
+        getStockPrices(joinList(stockSymbols));
     }
 
-    public String joinArray(String[] stockSymbols) {
+    public String joinList(List<String> stockSymbols) {
         String joined = "";
         for (String symbol : stockSymbols) {
             joined = joined + symbol + ",";
@@ -112,27 +114,34 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private Quote[] getStockQuote(String jsonData, int symbolLen) throws JSONException {
+    private Quote[] getStockQuote(String jsonData) throws JSONException {
         JSONObject data = new JSONObject(jsonData);
 
-        Quote[] quotes = new Quote[symbolLen];
+        Quote[] quotes = new Quote[data.length()];
 
-        for (int i = 0; i < symbolLen; i++) {
-            JSONObject jsonQuote = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONObject("quote");
-            JSONObject jsonLogo = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONObject("logo");
+        for (int i = 0; i < data.length(); i++) {
+            try {
+                JSONObject jsonQuote = data.getJSONObject(stockSymbols.get(i).toUpperCase()).getJSONObject("quote");
+                JSONObject jsonLogo = data.getJSONObject(stockSymbols.get(i).toUpperCase()).getJSONObject("logo");
 
-            Quote quote = new Quote();
-            setQuoteData(jsonQuote, jsonLogo, quote);
+                Quote quote = new Quote();
+                setQuoteData(jsonQuote, jsonLogo, quote);
 
-            JSONArray jsonNews = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONArray("news");
-            News[] news = createNewsList(i, jsonNews);
-            quote.setNewsList(news);
+                JSONArray jsonNews = data.getJSONObject(stockSymbols.get(i).toUpperCase()).getJSONArray("news");
+                News[] news = createNewsList(i, jsonNews);
+                quote.setNewsList(news);
 
-            JSONArray jsonChart = data.getJSONObject(stockSymbols[i].toUpperCase()).getJSONArray("chart");
-            Chart[] chartData = createChartList(i, jsonChart);
-            quote.setChartList(chartData);
+                JSONArray jsonChart = data.getJSONObject(stockSymbols.get(i).toUpperCase()).getJSONArray("chart");
+                Chart[] chartData = createChartList(i, jsonChart);
+                quote.setChartList(chartData);
 
-            quotes[i] = quote;
+                quotes[i] = quote;
+            } catch (Exception e) {
+                // Removes invalid stock symbols from stock symbol list
+                stockSymbols.remove(i);
+                i -= 1;
+                System.out.println("Invalid Stock Symbol: " + e);
+            }
         }
         return quotes;
     }
@@ -140,9 +149,7 @@ public class MainActivity extends AppCompatActivity {
     private Symbols parseStockData(String jsonData) throws JSONException {
         Symbols symbols = new Symbols();
 
-        int symbolLen = stockSymbols.length;
-
-        symbols.setStocks(getStockQuote(jsonData, symbolLen));
+        symbols.setStocks(getStockQuote(jsonData));
 
         return symbols;
     }
