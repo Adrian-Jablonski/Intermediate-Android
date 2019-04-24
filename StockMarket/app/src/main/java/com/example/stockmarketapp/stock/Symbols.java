@@ -4,6 +4,7 @@ public class Symbols {
     private Quote[] stocks;
     private News[] news;
     private Chart[] chart;
+    private AllSymbols[] symbolList;
 
     public News[] getNews() {
         return news;
@@ -27,5 +28,13 @@ public class Symbols {
 
     public void setChart(Chart[] chart) {
         this.chart = chart;
+    }
+
+    public AllSymbols[] getSymbolList() {
+        return symbolList;
+    }
+
+    public void setSymbolList(AllSymbols[] symbolList) {
+        this.symbolList = symbolList;
     }
 }
