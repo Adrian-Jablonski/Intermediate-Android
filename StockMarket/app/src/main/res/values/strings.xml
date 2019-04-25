@@ -2,4 +2,5 @@
     <string name="app_name">StockMarketApp</string>
     <string name="title_activity_stock_data">StockDataActivity</string>
     <string name="title_activity_stock_details">StockDetailsActivity</string>
+    <string name="title_activity_stock_symbol_search">StockSymbolSearch</string>
 </resources>

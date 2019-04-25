@@ -66,41 +66,6 @@ public class StockDataActivity extends AppCompatActivity  {
 
     }
 
-    @Override
-    public void onBackPressed() {   // Prevents user from returning to MainActivity loading screen
-        moveTaskToBack(true);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuItem menuItem = menu.add("Refresh");
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        menuItem.setIcon(R.drawable.ic_refresh_black_24dp);
-
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        System.out.println("CLICKED ID: " + id + " " + R.id.refresh);
-        //noinspection SimplifiableIfStatement
-        if (id == 0) {  // Refreshing stocks list
-            System.out.println("REFRESHED");
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void getAllStockSymbols() {
         String symbolsURL = "https://api.iextrading.com/1.0/ref-data/symbols";
         if (isNetworkAvailable()) {
@@ -182,6 +147,11 @@ public class StockDataActivity extends AppCompatActivity  {
             Toast.makeText(this, "Sorry, network is unavailable", Toast.LENGTH_LONG).show();
         }
         return isAvailable;
+    }
+
+    public void refreshOnClick(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     //    private List<Quote> getQuoteData() {    // TEST DATA
