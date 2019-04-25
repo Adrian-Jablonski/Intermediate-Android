@@ -15,7 +15,7 @@
         <activity
             android:name=".ui.StockSymbolSearch"
             android:label="@string/title_activity_stock_symbol_search"
-            android:parentActivityName=".ui.StockDataActivity"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

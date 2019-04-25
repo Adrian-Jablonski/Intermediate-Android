@@ -1,6 +1,8 @@
 package com.example.stockmarketapp.stock;
 
-public class AllSymbols {
+import java.io.Serializable;
+
+public class AllSymbols implements Serializable {
     private String symbol;
     private String name;
     private boolean isEnabled;
