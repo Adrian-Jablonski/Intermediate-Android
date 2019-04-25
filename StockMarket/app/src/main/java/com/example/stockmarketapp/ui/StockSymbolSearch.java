@@ -39,11 +39,14 @@ import okhttp3.Response;
 
 public class StockSymbolSearch extends AppCompatActivity {
 
+    private int searchResultAmount = 5;
+
     private Symbols symbols;
-    AllSymbols[] allSymbols;
-    List<AllSymbols> allSymbolList;
+    private AllSymbols[] allSymbols;
+    private List<AllSymbols> allSymbolList;
     private TextView stockSearchText;
     private ImageView stockSymbolSearch;
+    private TextView[] searchResults = new TextView[searchResultAmount];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,23 +58,32 @@ public class StockSymbolSearch extends AppCompatActivity {
         //TODO: Add keyup event to update search results while typing
         stockSearchText = findViewById(R.id.stockSearchText);
         stockSymbolSearch = findViewById(R.id.stockSymbolSearch);
+        searchResults[0] = findViewById(R.id.searchResult1);
+        searchResults[1] = findViewById(R.id.searchResult2);
+        searchResults[2] = findViewById(R.id.searchResult3);
+        searchResults[3] = findViewById(R.id.searchResult4);
+        searchResults[4] = findViewById(R.id.searchResult5);
 
         stockSymbolSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String searchText = (stockSearchText.getText() + "").toLowerCase();
                 System.out.println(searchText);
-                // Filter data
+
+                //TODO: Make search results invisible before loop and make each row visible if there is a result.
+                //TODO: Handle no results found if resultCount == 0 at the end of the while loop
+                //TODO: On network not available, do not allow add stock button click to not allow opening the StockSymbolSearch activity
+
                 int resultCount = 0;
                 int i = 0;
-                while (resultCount < 5 && i < allSymbols.length) {
+                while (resultCount < searchResultAmount && i < allSymbols.length) {
 
                     AllSymbols symbol = allSymbolList.get(i);
                     String stockName = symbol.getName().toLowerCase();
                     String stockSymbol = symbol.getSymbol().toLowerCase();
 
                     if (stockName.startsWith(searchText) || stockSymbol.startsWith(searchText)) {
-                        System.out.printf("%s %s%n", symbol.getName(), symbol.getSymbol());
+                        searchResults[resultCount].setText(String.format("%s : %s%n",symbol.getSymbol(), symbol.getName()));
                         resultCount += 1;
                     }
 
@@ -165,6 +177,9 @@ public class StockSymbolSearch extends AppCompatActivity {
         }
         else {
             Toast.makeText(this, "Sorry, network is unavailable", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, StockDataActivity.class);
+            startActivity(intent);
+
         }
         return isAvailable;
     }

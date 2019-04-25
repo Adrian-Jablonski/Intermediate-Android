@@ -66,6 +66,11 @@ public class StockDataActivity extends AppCompatActivity  {
 
     }
 
+    @Override
+    public void onBackPressed() {   // Prevents user from returning to MainActivity loading screen
+        moveTaskToBack(true);
+    }
+
     public void refreshOnClick(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
